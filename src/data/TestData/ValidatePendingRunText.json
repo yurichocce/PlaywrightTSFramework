@@ -1,0 +1,22 @@
+{
+    "dev": [
+        {
+            "Cell": "C10",
+            "Sheet": "Sheet1",
+            "What": "First",
+            "Table": "Customer",
+            "Field": "Name",
+            "MessageCell": "#PendingRun"
+        }
+    ],
+    "staging": [
+        {
+            "Cell": "C10",
+            "Sheet": "Sheet1",
+            "What": "First",
+            "Table": "Customer",
+            "Field": "Name",
+            "MessageCell": "#PendingRun"
+        }
+    ]
+}

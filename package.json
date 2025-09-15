@@ -1,0 +1,30 @@
+{
+  "name": "playwright-ts-framework-pagesbase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Migrated from Selenium C# to Playwright TypeScript (BasePage in src/pages)",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "playwright test",
+    "test:headed": "HEADLESS=false playwright test",
+    "test:serial": "PLAYWRIGHT_WORKERS=1 playwright test --workers=1",
+    "test:dev": "ENV=dev playwright test",
+    "test:staging": "ENV=staging playwright test",
+    "test:grep": "playwright test --grep",
+    "test:project": "playwright test --project",
+    "report": "playwright show-report",
+    "allure:generate": "allure generate ./allure-results -o ./allure-report --clean",
+    "allure:open": "allure open ./allure-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^20.11.0",
+    "allure-commandline": "^2.34.1",
+    "allure-playwright": "^3.3.3",
+    "csv-parse": "^5.5.6",
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "xlsx": "^0.18.5"
+  }
+}

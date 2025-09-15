@@ -1,0 +1,58 @@
+trigger: [ main ]
+
+pool: { vmImage: 'ubuntu-latest' }
+
+variables:
+  ENV: 'dev'           # dev | staging
+  HEADLESS: 'true'     # true|false
+  PLAYWRIGHT_WORKERS: '0'  # 0 lets PW decide, 1 to run serial
+  BROWSERS: 'all'      # all | chromium | firefox | webkit
+  RETRIES: '0'         # global retries
+
+steps:
+  - task: NodeTool@0
+    inputs: { versionSpec: '20.x' }
+    displayName: 'Use Node.js 20'
+
+  - script: |
+      npm ci
+      npx playwright install --with-deps
+    displayName: 'Install deps'
+
+  - script: |
+      if [ "$(BROWSERS)" = "all" ]; then
+        npx playwright test
+      else
+        PROJECTS=$(BROWSERS) npx playwright test
+      fi
+    env:
+      ENV: $(ENV)
+      HEADLESS: $(HEADLESS)
+      PLAYWRIGHT_WORKERS: $(PLAYWRIGHT_WORKERS)
+      RETRIES: $(RETRIES)
+    displayName: 'Run Playwright tests'
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/junit*.xml'
+      mergeTestResults: true
+    condition: succeededOrFailed()
+
+  - script: |
+      npx allure generate ./allure-results -o ./allure-report --clean || echo "Allure generation skipped"
+    displayName: 'Generate Allure report'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'playwright-report'
+      ArtifactName: 'playwright-report'
+      publishLocation: 'Container'
+    condition: succeededOrFailed()
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: 'allure-report'
+      ArtifactName: 'allure-report'
+      publishLocation: 'Container'
+    condition: succeededOrFailed()

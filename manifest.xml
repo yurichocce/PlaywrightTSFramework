@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+          xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+          xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+          xsi:type="TaskPaneApp">
+
+  <!-- Begin Basic Settings: Add-in metadata, used for all versions of Office unless override provided. -->
+
+  <!-- IMPORTANT! Id must be unique for your add-in, if you reuse this manifest ensure that you change this id to a new GUID. -->
+  <Id>7e079d71-9e49-46db-ae93-0d4baa594464</Id>
+
+  <!--Version. Updates from the store only get triggered if there is a version change. -->
+  <Version>25.9.251.3</Version>
+  <ProviderName>Insight Software</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
+  <DisplayName DefaultValue="Jet Reports" />
+  <Description DefaultValue="Jet Reports for Excel Online."/>
+
+  <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
+  <IconUrl DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-64.png"/>
+
+  <!--If you plan to submit this add-in to the Office Store, uncomment the SupportUrl element below-->
+  <SupportUrl DefaultValue="https://docs.jet.insightsoftware.com/hc/en-us" />
+
+  <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
+  <AppDomains>
+    <AppDomain>https://go.jetreports.com</AppDomain>
+    <AppDomain>https://jetonline-dev.insightsoftware.com</AppDomain>
+  </AppDomains>
+  <!--End Basic Settings. -->
+
+  <!--Begin TaskPane Mode integration. This section is used if there are no VersionOverrides or if the Office client version does not support add-in commands. -->
+  <Hosts>
+    <Host Name="Workbook" />
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="SharedRuntime" MinVersion="1.1"/>
+    </Sets>
+  </Requirements>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://jetonline-dev.insightsoftware.com" />
+  </DefaultSettings>
+  <!-- End TaskPane Mode integration.  -->
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <!-- Begin Add-in Commands Mode integration. -->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+
+    <!-- The Hosts node is required. -->
+    <Hosts>
+      <!-- Each host can have a different set of commands. -->
+      <!-- Excel host is Workbook, Word host is Document, and PowerPoint host is Presentation. -->
+      <!-- Make sure the hosts you override match the hosts declared in the top section of the manifest. -->
+      <Host xsi:type="Workbook">
+        <Runtimes>
+          <Runtime resid="Taskpane.Url" lifetime="long"/>
+        </Runtimes>
+        <AllFormFactors>
+          <ExtensionPoint xsi:type="CustomFunctions">
+            <Script>
+              <SourceLocation resid="Functions.Script.Url"/>
+            </Script>
+            <Page>
+              <SourceLocation resid="Taskpane.Url"/>
+            </Page>
+            <Metadata>
+              <SourceLocation resid="Functions.Metadata.Url"/>
+            </Metadata>
+            <Namespace resid="Functions.Namespace"/>
+          </ExtensionPoint>
+        </AllFormFactors>
+        <!-- Form factor. Currently only DesktopFormFactor is supported. -->
+        <DesktopFormFactor>
+          <!--"This code enables a customizable message to be displayed when the add-in is loaded successfully upon individual install."-->
+          <GetStarted>
+            <!-- Title of the Getting Started callout. resid points to a ShortString resource -->
+            <Title resid="GetStarted.Title"/>
+
+            <!-- Description of the Getting Started callout. resid points to a LongString resource -->
+            <Description resid="GetStarted.Description"/>
+
+            <!-- Point to a url resource which details how the add-in should be used. -->
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl"/>
+          </GetStarted>
+          <!-- Function file is a HTML page that includes the JavaScript where functions for ExecuteAction will be called.
+            Think of the FunctionFile as the code behind ExecuteFunction. -->
+          <FunctionFile resid="Commands.Url" />
+
+          <!-- PrimaryCommandSurface is the main Office Ribbon. -->
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <!-- Use OfficeTab to extend an existing Tab. Use CustomTab to create a new tab. -->
+            <CustomTab id="JetReportsTab">
+
+              <!-- User Profile Group -->
+              <Group id="UserProfileGroup">
+                <Label resid="UserProfileGroup.Label" />
+                <Icon>
+                    <bt:Image size="16"  resid="DefaultIcon.16x16"/>
+                    <bt:Image size="20"  resid="DefaultIcon.20x20"/>
+                    <bt:Image size="24"  resid="DefaultIcon.24x24"/>
+                    <bt:Image size="32"  resid="DefaultIcon.32x32"/>
+                    <bt:Image size="40"  resid="DefaultIcon.40x40"/>
+                    <bt:Image size="48"  resid="DefaultIcon.48x48"/>
+                    <bt:Image size="64"  resid="DefaultIcon.64x64"/>
+                    <bt:Image size="80"  resid="DefaultIcon.80x80"/>
+                    <bt:Image size="96"  resid="DefaultIcon.96x96"/>
+                </Icon>
+                <Control xsi:type="Button" id="UserProfileButton">
+                  <Label resid="UserProfileButton.Label" />
+                  <Supertip>
+                    <Title resid="UserProfileButton.Label" />
+                    <Description resid="UserProfileButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="UserProfileIcon.16x16" />
+                    <bt:Image size="20" resid="UserProfileIcon.20x20" />
+                    <bt:Image size="24" resid="UserProfileIcon.24x24" />
+                    <bt:Image size="32" resid="UserProfileIcon.32x32" />
+                    <bt:Image size="40" resid="UserProfileIcon.40x40" />
+                    <bt:Image size="48" resid="UserProfileIcon.48x48" />
+                    <bt:Image size="64" resid="UserProfileIcon.64x64" />
+                    <bt:Image size="80" resid="UserProfileIcon.80x80" />
+                    <bt:Image size="96" resid="UserProfileIcon.96x96" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>UserProfileTaskpane</TaskpaneId>
+                    <SourceLocation resid="UserProfile.Url" />
+                    <Title resid="UserProfileButton.Label" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+              </Group>
+
+              <!-- Ensure you provide a unique id for the group. Recommendation for any IDs is to namespace using your company name. -->
+              <Group id="DesignGroup">
+              <!-- Label for your group. resid must point to a ShortString resource. -->
+                <Label resid="DesignGroup.Label" />
+                <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+                <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+                  <Icon>
+                      <bt:Image size="16"  resid="DefaultIcon.16x16"/>
+                      <bt:Image size="20"  resid="DefaultIcon.20x20"/>
+                      <bt:Image size="24"  resid="DefaultIcon.24x24"/>
+                      <bt:Image size="32"  resid="DefaultIcon.32x32"/>
+                      <bt:Image size="40"  resid="DefaultIcon.40x40"/>
+                      <bt:Image size="48"  resid="DefaultIcon.48x48"/>
+                      <bt:Image size="64"  resid="DefaultIcon.64x64"/>
+                      <bt:Image size="80"  resid="DefaultIcon.80x80"/>
+                      <bt:Image size="96"  resid="DefaultIcon.96x96"/>
+                  </Icon>
+                  <!-- Control. It can be of type "Button" or "Menu". -->
+                  <Control xsi:type="Button" id="DesignModeButton">
+                    <Label resid="DesignModeButton.Label" />
+                    <Supertip>
+                      <!-- ToolTip title. resid must point to a ShortString resource. -->
+                      <Title resid="DesignModeButton.Label" />
+                      <!-- ToolTip description. resid must point to a LongString resource. -->
+                      <Description resid="DesignModeButton.Tooltip" />
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="DesignModeIcon.16x16" />
+                      <bt:Image size="20" resid="DesignModeIcon.20x20" />
+                      <bt:Image size="24" resid="DesignModeIcon.24x24" />
+                      <bt:Image size="32" resid="DesignModeIcon.32x32" />
+                      <bt:Image size="40" resid="DesignModeIcon.40x40" />
+                      <bt:Image size="48" resid="DesignModeIcon.48x48" />
+                      <bt:Image size="64" resid="DesignModeIcon.64x64" />
+                      <bt:Image size="80" resid="DesignModeIcon.80x80" />
+                      <bt:Image size="96" resid="DesignModeIcon.96x96" />
+                    </Icon>
+                    <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>RibbonActionsTaskpane</TaskpaneId>
+                    <!-- Provide a url resource id for the location that will be displayed on the task pane. -->
+                    <SourceLocation resid="DesignMode.Url" />
+                    <Title resid="DesignModeButton.Label" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                  </Control>
+              </Group>
+
+              <!-- Ensure you provide a unique id for the group. Recommendation for any IDs is to namespace using your company name. -->
+              <Group id="ReportGroup">
+                <!-- Label for your group. resid must point to a ShortString resource. -->
+                <Label resid="ReportGroup.Label" />
+                <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+                <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+                <Icon>
+                    <bt:Image size="16"  resid="DefaultIcon.16x16"/>
+                    <bt:Image size="20"  resid="DefaultIcon.20x20"/>
+                    <bt:Image size="24"  resid="DefaultIcon.24x24"/>
+                    <bt:Image size="32"  resid="DefaultIcon.32x32"/>
+                    <bt:Image size="40"  resid="DefaultIcon.40x40"/>
+                    <bt:Image size="48"  resid="DefaultIcon.48x48"/>
+                    <bt:Image size="64"  resid="DefaultIcon.64x64"/>
+                    <bt:Image size="80"  resid="DefaultIcon.80x80"/>
+                    <bt:Image size="96"  resid="DefaultIcon.96x96"/>
+                </Icon>
+
+                <!-- Control. It can be of type "Button" or "Menu". -->
+                <Control xsi:type="Button" id="RunReportButton">
+                  <Label resid="RunReportButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="RunReportButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="RunReportButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="RunReportIcon.16x16" />
+                    <bt:Image size="20" resid="RunReportIcon.20x20" />
+                    <bt:Image size="24" resid="RunReportIcon.24x24" />
+                    <bt:Image size="32" resid="RunReportIcon.32x32" />
+                    <bt:Image size="40" resid="RunReportIcon.40x40" />
+                    <bt:Image size="48" resid="RunReportIcon.48x48" />
+                    <bt:Image size="64" resid="RunReportIcon.64x64" />
+                    <bt:Image size="80" resid="RunReportIcon.80x80" />
+                    <bt:Image size="96" resid="RunReportIcon.96x96" />
+                  </Icon>
+
+                  <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>RibbonActionsTaskpane</TaskpaneId>
+                    <!-- Provide a url resource id for the location that will be displayed on the task pane. -->
+                    <SourceLocation resid="RunReport.Url" />
+                    <Title resid="ReportStatusButton.Label" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+                <Control xsi:type="Button" id="DrilldownButton">
+                  <Label resid="DrilldownButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="DrilldownButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="DrilldownButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="DrilldownIcon.16x16" />
+                    <bt:Image size="20" resid="DrilldownIcon.20x20" />
+                    <bt:Image size="24" resid="DrilldownIcon.24x24" />
+                    <bt:Image size="32" resid="DrilldownIcon.32x32" />
+                    <bt:Image size="40" resid="DrilldownIcon.40x40" />
+                    <bt:Image size="48" resid="DrilldownIcon.48x48" />
+                    <bt:Image size="64" resid="DrilldownIcon.64x64" />
+                    <bt:Image size="80" resid="DrilldownIcon.80x80" />
+                    <bt:Image size="96" resid="DrilldownIcon.96x96" />
+                  </Icon>
+
+                  <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>RibbonActionsTaskpane</TaskpaneId>
+                    <!-- Provide a url resource id for the location that will be displayed on the task pane. -->
+                    <SourceLocation resid="Drilldown.Url" />
+                    <Title resid="ReportStatusButton.Label" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+                
+                <Control xsi:type="Button" id="ReportStatusButton">
+                  <Label resid="ReportStatusButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="ReportStatusButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="ReportStatusButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="ReportStatusIcon.16x16" />
+                    <bt:Image size="20" resid="ReportStatusIcon.20x20" />
+                    <bt:Image size="24" resid="ReportStatusIcon.24x24" />
+                    <bt:Image size="32" resid="ReportStatusIcon.32x32" />
+                    <bt:Image size="40" resid="ReportStatusIcon.40x40" />
+                    <bt:Image size="48" resid="ReportStatusIcon.48x48" />
+                    <bt:Image size="64" resid="ReportStatusIcon.64x64" />
+                    <bt:Image size="80" resid="ReportStatusIcon.80x80" />
+                    <bt:Image size="96" resid="ReportStatusIcon.96x96" />
+                  </Icon>
+
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>RibbonActionsTaskpane</TaskpaneId>
+                    <!-- Provide a url resource id for the location that will be displayed on the task pane. -->
+                    <SourceLocation resid="ReportStatus.Url" />
+                    <Title resid="ReportStatusButton.Label" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+                <Control xsi:type="Button" id="ReportOptionsButton">
+                  <Label resid="ReportOptions.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="ReportOptions.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="ReportOptions.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="ReportOptionsIcon.16x16" />
+                    <bt:Image size="20" resid="ReportOptionsIcon.20x20" />
+                    <bt:Image size="24" resid="ReportOptionsIcon.24x24" />
+                    <bt:Image size="32" resid="ReportOptionsIcon.32x32" />
+                    <bt:Image size="40" resid="ReportOptionsIcon.40x40" />
+                    <bt:Image size="48" resid="ReportOptionsIcon.48x48" />
+                    <bt:Image size="64" resid="ReportOptionsIcon.64x64" />
+                    <bt:Image size="80" resid="ReportOptionsIcon.80x80" />
+                    <bt:Image size="96" resid="ReportOptionsIcon.96x96" />
+                  </Icon>
+
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ReportOptionsTaskpane</TaskpaneId>
+                    <!-- Provide a url resource id for the location that will be displayed on the task pane. -->
+                    <SourceLocation resid="ReportOptions.Url" />
+                    <Title resid="ReportOptions.Label" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+              </Group>
+              
+              <!-- Ensure you provide a unique id for the group. Recommendation for any IDs is to namespace using your company name. -->
+              <Group id="ReportsCenterGroup">
+              <!-- Label for your group. resid must point to a ShortString resource. -->
+                <Label resid="ReportsCenterGroup.Label" />
+                <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+                <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+                  <Icon>
+                    <bt:Image size="16"  resid="DefaultIcon.16x16"/>
+                    <bt:Image size="20"  resid="DefaultIcon.20x20"/>
+                    <bt:Image size="24"  resid="DefaultIcon.24x24"/>
+                    <bt:Image size="32"  resid="DefaultIcon.32x32"/>
+                    <bt:Image size="40"  resid="DefaultIcon.40x40"/>
+                    <bt:Image size="48"  resid="DefaultIcon.48x48"/>
+                    <bt:Image size="64"  resid="DefaultIcon.64x64"/>
+                    <bt:Image size="80"  resid="DefaultIcon.80x80"/>
+                    <bt:Image size="96"  resid="DefaultIcon.96x96"/>
+                  </Icon>
+                  <!-- Control. It can be of type "Button" or "Menu". -->
+                  <Control xsi:type="Button" id="AccessReportsCenterButton">
+                    <Label resid="AccessReportsCenterButton.Label" />
+                    <Supertip>
+                      <!-- ToolTip title. resid must point to a ShortString resource. -->
+                      <Title resid="AccessReportsCenterButton.Label" />
+                      <!-- ToolTip description. resid must point to a LongString resource. -->
+                      <Description resid="AccessRCButton.Tooltip" />
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="AccessReportsCenterIcon.16x16" />
+                      <bt:Image size="20" resid="AccessReportsCenterIcon.20x20" />
+                      <bt:Image size="24" resid="AccessReportsCenterIcon.24x24" />
+                      <bt:Image size="32" resid="AccessReportsCenterIcon.32x32" />
+                      <bt:Image size="40" resid="AccessReportsCenterIcon.40x40" />
+                      <bt:Image size="48" resid="AccessReportsCenterIcon.48x48" />
+                      <bt:Image size="64" resid="AccessReportsCenterIcon.64x64" />
+                      <bt:Image size="80" resid="AccessReportsCenterIcon.80x80" />
+                      <bt:Image size="96" resid="AccessReportsCenterIcon.96x96" />
+                    </Icon>
+
+                    <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+                    <Action xsi:type="ExecuteFunction">
+                      <FunctionName>accessReportsCenter</FunctionName>
+                    </Action>
+                    <Enabled>true</Enabled>
+                  </Control>
+
+                  <!-- Control. It can be of type "Button" or "Menu". -->
+                  <Control xsi:type="Button" id="UploadReportsCenterButton">
+                    <Label resid="UploadReportsCenterButton.Label" />
+                    <Supertip>
+                      <!-- ToolTip title. resid must point to a ShortString resource. -->
+                      <Title resid="UploadReportsCenterButton.Label" />
+                      <!-- ToolTip description. resid must point to a LongString resource. -->
+                      <Description resid="UploadRCButton.Tooltip" />
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="UploadReportsCenterIcon.16x16" />
+                      <bt:Image size="20" resid="UploadReportsCenterIcon.20x20" />
+                      <bt:Image size="24" resid="UploadReportsCenterIcon.24x24" />
+                      <bt:Image size="32" resid="UploadReportsCenterIcon.32x32" />
+                      <bt:Image size="40" resid="UploadReportsCenterIcon.40x40" />
+                      <bt:Image size="48" resid="UploadReportsCenterIcon.48x48" />
+                      <bt:Image size="64" resid="UploadReportsCenterIcon.64x64" />
+                      <bt:Image size="80" resid="UploadReportsCenterIcon.80x80" />
+                      <bt:Image size="96" resid="UploadReportsCenterIcon.96x96" />
+                    </Icon>
+
+                    <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+                    <Action xsi:type="ShowTaskpane">
+                      <TaskpaneId>RibbonActionsTaskpane</TaskpaneId>
+                      <!-- Provide a url resource id for the location that will be displayed on the task pane. -->
+                      <SourceLocation resid="UploadReportsCenter.Url" />
+                      <Title resid="UploadReportsCenterButton.Label" />
+                    </Action>
+                    <Enabled>true</Enabled>
+                  </Control>
+              </Group>
+
+              <Group id="ToolsGroup">
+                <!-- Label for your group. resid must point to a ShortString resource. -->
+                <Label resid="ToolsGroup.Label" />
+                <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+                <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+                <Icon>
+                  <bt:Image size="16"  resid="DefaultIcon.16x16"/>
+                  <bt:Image size="20"  resid="DefaultIcon.20x20"/>
+                  <bt:Image size="24"  resid="DefaultIcon.24x24"/>
+                  <bt:Image size="32"  resid="DefaultIcon.32x32"/>
+                  <bt:Image size="40"  resid="DefaultIcon.40x40"/>
+                  <bt:Image size="48"  resid="DefaultIcon.48x48"/>
+                  <bt:Image size="64"  resid="DefaultIcon.64x64"/>
+                  <bt:Image size="80"  resid="DefaultIcon.80x80"/>
+                  <bt:Image size="96"  resid="DefaultIcon.96x96"/>
+                </Icon>
+
+                <!-- Control. It can be of type "Button" or "Menu". -->
+                <Control xsi:type="Button" id="FunctionWizardButton">
+                  <Label resid="FunctionWizardButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="FunctionWizardButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="FunctionWizardButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="FormulaIcon.16x16" />
+                    <bt:Image size="20" resid="FormulaIcon.20x20" />
+                    <bt:Image size="24" resid="FormulaIcon.24x24" />
+                    <bt:Image size="32" resid="FormulaIcon.32x32" />
+                    <bt:Image size="40" resid="FormulaIcon.40x40" />
+                    <bt:Image size="48" resid="FormulaIcon.48x48" />
+                    <bt:Image size="64" resid="FormulaIcon.64x64" />
+                    <bt:Image size="80" resid="FormulaIcon.80x80" />
+                    <bt:Image size="96" resid="FormulaIcon.96x96" />
+                  </Icon>
+
+                  <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>FunctionWizardTaskpane</TaskpaneId>
+                    <!-- Provide a url resource id for the location that will be displayed on the task pane. -->
+                    <SourceLocation resid="FunctionWizard.Url" />
+                    <Title resid="FunctionWizardButton.Label" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+                <Control xsi:type="Button" id="SettingsButton">
+                  <Label resid="SettingsButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="SettingsButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="SettingsButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="SettingsIcon.16x16" />
+                    <bt:Image size="20" resid="SettingsIcon.20x20" />
+                    <bt:Image size="24" resid="SettingsIcon.24x24" />
+                    <bt:Image size="32" resid="SettingsIcon.32x32" />
+                    <bt:Image size="40" resid="SettingsIcon.40x40" />
+                    <bt:Image size="48" resid="SettingsIcon.48x48" />
+                    <bt:Image size="64" resid="SettingsIcon.64x64" />
+                    <bt:Image size="80" resid="SettingsIcon.80x80" />
+                    <bt:Image size="96" resid="SettingsIcon.96x96" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>SettingsTaskpane</TaskpaneId>
+                    <!-- Provide a url resource id for the location that will be displayed on the task pane. -->
+                    <SourceLocation resid="Settings.Url" />
+                    <Title resid="SettingsButton.Label" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+              </Group>
+              <Group id="AssistanceGroup">
+                <!-- Label for your group. resid must point to a ShortString resource. -->
+                <Label resid="AssistanceGroup.Label" />
+                <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+                <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+                <Icon>
+                  <bt:Image size="16"  resid="DefaultIcon.16x16"/>
+                  <bt:Image size="20"  resid="DefaultIcon.20x20"/>
+                  <bt:Image size="24"  resid="DefaultIcon.24x24"/>
+                  <bt:Image size="32"  resid="DefaultIcon.32x32"/>
+                  <bt:Image size="40"  resid="DefaultIcon.40x40"/>
+                  <bt:Image size="48"  resid="DefaultIcon.48x48"/>
+                  <bt:Image size="64"  resid="DefaultIcon.64x64"/>
+                  <bt:Image size="80"  resid="DefaultIcon.80x80"/>
+                  <bt:Image size="96"  resid="DefaultIcon.96x96"/>
+                </Icon>
+
+                <!-- Control. It can be of type "Button" or "Menu". -->
+                <Control xsi:type="Button" id="HelpButton">
+                  <Label resid="HelpButton.Label" />
+                  <Supertip>
+                    <!-- ToolTip title. resid must point to a ShortString resource. -->
+                    <Title resid="HelpButton.Label" />
+                    <!-- ToolTip description. resid must point to a LongString resource. -->
+                    <Description resid="HelpButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="HelpIcon.16x16" />
+                    <bt:Image size="20" resid="HelpIcon.20x20" />
+                    <bt:Image size="24" resid="HelpIcon.24x24" />
+                    <bt:Image size="32" resid="HelpIcon.32x32" />
+                    <bt:Image size="40" resid="HelpIcon.40x40" />
+                    <bt:Image size="48" resid="HelpIcon.48x48" />
+                    <bt:Image size="64" resid="HelpIcon.64x64" />
+                    <bt:Image size="80" resid="HelpIcon.80x80" />
+                    <bt:Image size="96" resid="HelpIcon.96x96" />
+                  </Icon>
+
+                  <!-- This is what happens when the command is triggered (E.g. click on the Ribbon). Supported actions are ExecuteFunction or ShowTaskpane. -->
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>accessHelpCenter</FunctionName>
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+              </Group>
+              <Label resid="JetReportsTab.Label" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <!-- You can use resources across hosts and form factors. -->
+    <Resources>
+      <bt:Images>
+        <bt:Image id="DefaultIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-16.png"/>
+        <bt:Image id="DefaultIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-20.png"/>
+        <bt:Image id="DefaultIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-24.png"/>
+        <bt:Image id="DefaultIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-32.png"/>
+        <bt:Image id="DefaultIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-40.png"/>
+        <bt:Image id="DefaultIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-48.png"/>
+        <bt:Image id="DefaultIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-64.png"/>
+        <bt:Image id="DefaultIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-80.png"/>
+        <bt:Image id="DefaultIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/default-icon-96.png"/>
+        <bt:Image id="DesignModeIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-16.png"/>
+        <bt:Image id="DesignModeIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-20.png"/>
+        <bt:Image id="DesignModeIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-24.png"/>
+        <bt:Image id="DesignModeIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-32.png"/>
+        <bt:Image id="DesignModeIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-40.png"/>
+        <bt:Image id="DesignModeIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-48.png"/>
+        <bt:Image id="DesignModeIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-64.png"/>
+        <bt:Image id="DesignModeIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-80.png"/>
+        <bt:Image id="DesignModeIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/design-mode-icon-96.png"/>
+        <bt:Image id="AccessReportsCenterIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-16.png"/>
+        <bt:Image id="AccessReportsCenterIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-20.png"/>
+        <bt:Image id="AccessReportsCenterIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-24.png"/>
+        <bt:Image id="AccessReportsCenterIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-32.png"/>
+        <bt:Image id="AccessReportsCenterIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-40.png"/>
+        <bt:Image id="AccessReportsCenterIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-48.png"/>
+        <bt:Image id="AccessReportsCenterIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-64.png"/>
+        <bt:Image id="AccessReportsCenterIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-80.png"/>
+        <bt:Image id="AccessReportsCenterIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/access-reports-center-icon-96.png"/>
+        <bt:Image id="RunReportIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-16.png"/>
+        <bt:Image id="RunReportIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-20.png"/>
+        <bt:Image id="RunReportIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-24.png"/>
+        <bt:Image id="RunReportIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-32.png"/>
+        <bt:Image id="RunReportIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-40.png"/>
+        <bt:Image id="RunReportIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-48.png"/>
+        <bt:Image id="RunReportIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-64.png"/>
+        <bt:Image id="RunReportIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-80.png"/>
+        <bt:Image id="RunReportIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/run-report-icon-96.png"/>
+        <bt:Image id="DrilldownIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-16.png"/>
+        <bt:Image id="DrilldownIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-20.png"/>
+        <bt:Image id="DrilldownIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-24.png"/>
+        <bt:Image id="DrilldownIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-32.png"/>
+        <bt:Image id="DrilldownIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-40.png"/>
+        <bt:Image id="DrilldownIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-48.png"/>
+        <bt:Image id="DrilldownIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-64.png"/>
+        <bt:Image id="DrilldownIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-80.png"/>
+        <bt:Image id="DrilldownIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/drilldown-icon-96.png"/>
+        <bt:Image id="UploadReportsCenterIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-16.png"/>
+        <bt:Image id="UploadReportsCenterIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-20.png"/>
+        <bt:Image id="UploadReportsCenterIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-24.png"/>
+        <bt:Image id="UploadReportsCenterIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-32.png"/>
+        <bt:Image id="UploadReportsCenterIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-40.png"/>
+        <bt:Image id="UploadReportsCenterIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-48.png"/>
+        <bt:Image id="UploadReportsCenterIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-64.png"/>
+        <bt:Image id="UploadReportsCenterIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-80.png"/>
+        <bt:Image id="UploadReportsCenterIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/upload-to-reports-center-icon-96.png"/>
+        <bt:Image id="ReportStatusIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-16.png"/>
+        <bt:Image id="ReportStatusIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-20.png"/>
+        <bt:Image id="ReportStatusIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-24.png"/>
+        <bt:Image id="ReportStatusIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-32.png"/>
+        <bt:Image id="ReportStatusIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-40.png"/>
+        <bt:Image id="ReportStatusIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-48.png"/>
+        <bt:Image id="ReportStatusIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-64.png"/>
+        <bt:Image id="ReportStatusIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-80.png"/>
+        <bt:Image id="ReportStatusIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-status-icon-96.png"/>
+        <bt:Image id="ReportOptionsIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-16.png"/>
+        <bt:Image id="ReportOptionsIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-20.png"/>
+        <bt:Image id="ReportOptionsIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-24.png"/>
+        <bt:Image id="ReportOptionsIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-32.png"/>
+        <bt:Image id="ReportOptionsIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-40.png"/>
+        <bt:Image id="ReportOptionsIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-48.png"/>
+        <bt:Image id="ReportOptionsIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-64.png"/>
+        <bt:Image id="ReportOptionsIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-80.png"/>
+        <bt:Image id="ReportOptionsIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/report-options-96.png"/>
+        <bt:Image id="SettingsIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-16.png"/>
+        <bt:Image id="SettingsIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-20.png"/>
+        <bt:Image id="SettingsIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-24.png"/>
+        <bt:Image id="SettingsIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-32.png"/>
+        <bt:Image id="SettingsIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-40.png"/>
+        <bt:Image id="SettingsIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-48.png"/>
+        <bt:Image id="SettingsIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-64.png"/>
+        <bt:Image id="SettingsIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-80.png"/>
+        <bt:Image id="SettingsIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/settings-icon-96.png"/>
+        <bt:Image id="FormulaIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-16.png"/>
+        <bt:Image id="FormulaIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-20.png"/>
+        <bt:Image id="FormulaIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-24.png"/>
+        <bt:Image id="FormulaIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-32.png"/>
+        <bt:Image id="FormulaIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-40.png"/>
+        <bt:Image id="FormulaIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-48.png"/>
+        <bt:Image id="FormulaIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-64.png"/>
+        <bt:Image id="FormulaIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-80.png"/>
+        <bt:Image id="FormulaIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/formula-icon-96.png"/>
+        <bt:Image id="HelpIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-16.png"/>
+        <bt:Image id="HelpIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-20.png"/>
+        <bt:Image id="HelpIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-24.png"/>
+        <bt:Image id="HelpIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-32.png"/>
+        <bt:Image id="HelpIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-40.png"/>
+        <bt:Image id="HelpIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-48.png"/>
+        <bt:Image id="HelpIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-64.png"/>
+        <bt:Image id="HelpIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-80.png"/>
+        <bt:Image id="HelpIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/help-96.png"/>
+        <bt:Image id="LineosIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-16.png"/>
+        <bt:Image id="LineosIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-20.png"/>
+        <bt:Image id="LineosIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-24.png"/>
+        <bt:Image id="LineosIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-32.png"/>
+        <bt:Image id="LineosIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-40.png"/>
+        <bt:Image id="LineosIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-48.png"/>
+        <bt:Image id="LineosIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-64.png"/>
+        <bt:Image id="LineosIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-80.png"/>
+        <bt:Image id="LineosIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/lineos-96.png"/>
+        <bt:Image id="UserProfileIcon.16x16" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-16.png"/>
+        <bt:Image id="UserProfileIcon.20x20" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-20.png"/>
+        <bt:Image id="UserProfileIcon.24x24" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-24.png"/>
+        <bt:Image id="UserProfileIcon.32x32" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-32.png"/>
+        <bt:Image id="UserProfileIcon.40x40" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-40.png"/>
+        <bt:Image id="UserProfileIcon.48x48" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-48.png"/>
+        <bt:Image id="UserProfileIcon.64x64" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-64.png"/>
+        <bt:Image id="UserProfileIcon.80x80" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-80.png"/>
+        <bt:Image id="UserProfileIcon.96x96" DefaultValue="https://jetonline-dev.insightsoftware.com/icons/user-profile-icon-96.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812" />
+        <bt:Url id="Taskpane.Url" DefaultValue="https://jetonline-dev.insightsoftware.com" />
+        <bt:Url id="Drilldown.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/ribbon-actions?action=0" />
+        <bt:Url id="RunReport.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/ribbon-actions?action=5" />
+        <bt:Url id="ReportStatus.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/ribbon-actions?action=3" />
+        <bt:Url id="ReportOptions.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/report-options" />
+        <bt:Url id="DesignMode.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/ribbon-actions?action=2" />
+        <bt:Url id="UserProfile.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/user-profile" />
+        <bt:Url id="UploadReportsCenter.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/ribbon-actions?action=4" />
+        <bt:Url id="Settings.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/settings" />
+        <bt:Url id="FunctionWizard.Url" DefaultValue="https://jetonline-dev.insightsoftware.com" />
+        <bt:Url id="Functions.Script.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/excel/functions.js"/>
+        <bt:Url id="Functions.Metadata.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/excel/functions.json"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://jetonline-dev.insightsoftware.com/excel/commands.html" />
+        <bt:Url id="Lineos.Url" DefaultValue="https://jetonline-dev.insightsoftware.com" />
+      </bt:Urls>
+      <!-- ShortStrings max characters==125. -->
+      <bt:ShortStrings>
+        <bt:String id="GetStarted.Title" DefaultValue="Get started with Jet Reports!" />
+        <bt:String id="JetReportsTab.Label" DefaultValue="Jet Online - DEV" />
+        <bt:String id="UserProfileGroup.Label" DefaultValue="User Profile" />
+        <bt:String id="ReportGroup.Label" DefaultValue="Report" />
+        <bt:String id="DesignGroup.Label" DefaultValue="Design" />
+        <bt:String id="ToolsGroup.Label" DefaultValue="Tools" />
+        <bt:String id="ReportsCenterGroup.Label" DefaultValue="Reports Center" />
+        <bt:String id="AssistanceGroup.Label" DefaultValue="Assistance" />
+        <bt:String id="RunReportButton.Label" DefaultValue="Run" />
+        <bt:String id="DesignModeButton.Label" DefaultValue="Design" />
+        <bt:String id="DrilldownButton.Label" DefaultValue="Drilldown" />
+        <bt:String id="ReportStatusButton.Label" DefaultValue="Report Status" />
+        <bt:String id="ReportOptions.Label" DefaultValue="Report Options" />
+        <bt:String id="SettingsButton.Label" DefaultValue="Settings" />
+        <bt:String id="Lineos.Label" DefaultValue="Lineos" />
+        <bt:String id="FunctionWizardButton.Label" DefaultValue="Function Wizard" />
+        <bt:String id="HelpButton.Label" DefaultValue="Help" />
+        <bt:String id="Help.Label" DefaultValue="Help" />
+        <bt:String id="LineosButton.Label" DefaultValue="Lineos" />
+        <bt:String id="AccessReportsCenterButton.Label" DefaultValue="Access Reports Center" />
+        <bt:String id="UploadReportsCenterButton.Label" DefaultValue="Upload to Reports Center" />
+        <bt:String id="UserProfileButton.Label" DefaultValue="User Profile" />
+      </bt:ShortStrings>
+      <!-- LongStrings max characters==250. -->
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="The Jet Reports add-in loaded successfully. Go to the Jet Reports tab to get started." />
+        <bt:String id="RunReportButton.Tooltip" DefaultValue="Run the report and retrieve data" />
+        <bt:String id="DesignModeButton.Tooltip" DefaultValue="Enable design mode to create or edit reports with Jet and Excel functions" />
+        <bt:String id="DrilldownButton.Tooltip" DefaultValue="View detailed data behind the report values" />
+        <bt:String id="ReportStatusButton.Tooltip" DefaultValue="Check the status and details of the last report run" />
+		<bt:String id="ReportOptions.Tooltip" DefaultValue="Add, remove, and modify filters that can be selected when the report is run" />
+        <bt:String id="SettingsButton.Tooltip" DefaultValue="Configure your Jet Reports settings" />
+        <bt:String id="LineosButton.Tooltip" DefaultValue="Lineos" />
+        <bt:String id="UserProfileButton.Tooltip" DefaultValue="Authenticate your Platform account or sign out" />
+        <bt:String id="FunctionWizardButton.Tooltip" DefaultValue="Open the function wizard to build or edit Jet functions" />
+        <bt:String id="HelpButton.Tooltip" DefaultValue="Access help resources and documentation" />
+        <bt:String id="AccessRCButton.Tooltip" DefaultValue="Open the Reports Center to view and manage reports" />
+        <bt:String id="UploadRCButton.Tooltip" DefaultValue="Upload the current report to Reports Center" />
+      </bt:LongStrings>
+    </Resources>
+    <EquivalentAddins>
+      <EquivalentAddin>
+        <ProgId>ISW.JetReports.ExcelAddin</ProgId>
+        <Type>COM</Type>
+      </EquivalentAddin>
+      <EquivalentAddin>
+        <FileName>JetReports.xll</FileName>
+        <Type>XLL</Type>
+      </EquivalentAddin>
+    </EquivalentAddins>	      
+  </VersionOverrides>
+  <!-- End Add-in Commands Mode integration. -->
+
+</OfficeApp>
